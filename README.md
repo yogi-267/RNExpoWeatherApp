@@ -19,3 +19,4 @@ A React Native weather application built with Expo, TypeScript, and MVVM archite
 - `src/viewmodels/` → Handles API calls and business logic
 - `src/screens/` → App screens# RNExpoWeatherApp
 # RNExpoWeatherApp
+# RNExpoWeatherApp
