@@ -35,20 +35,20 @@ const useWeatherViewModel = () => {
 
       // Fetch new data if city is not found in cache
       const newWeatherData = await getWeather(cityName);
-      if (!newWeatherData) throw new Error("No data received from API");
+      if (!newWeatherData) {
+        setWeather(null);
+        return null;
+      }
 
       const newRecord = {
         ...transformWeatherData(newWeatherData),
-        city: cityName,
       };
       const updatedCache = [newRecord, ...cachedData].slice(0, MAX_CACHE_SIZE);
       await AsyncStorage.setItem(CACHE_KEY, JSON.stringify(updatedCache));
 
       setWeather(newRecord);
     } catch (error) {
-      console.error("Error fetching weatherdsfds:", error);
       setWeather(null);
-
       return null;
     } finally {
       setLoading(false);

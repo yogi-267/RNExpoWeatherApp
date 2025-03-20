@@ -11,11 +11,12 @@ export async function getWeather(city: string): Promise<any> {
       `${BASE_URL}/${city}?unitGroup=metric&key=${API_KEY}`
     );
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      // console.error(`HTTP error! Status: ${response.status}`);
+      return null;
     }
     return await response.json();
   } catch (error: any) {
-    console.error("Error fetching weather data:", error);
-    throw error;
+    // console.error("Error fetching weather data:", error);
+    return null;
   }
 }
