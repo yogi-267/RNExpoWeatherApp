@@ -20,7 +20,9 @@ A React Native weather application built with Expo, TypeScript, and MVVM archite
 - Store the API key in a `.env` file
 
 ## Deployment
-- The app is deployed using Expo Go for easy testing.
+The app is deployed via Expo and can be accessed using Expo Go.
+
+[Click here to view the app on Expo Go](https://expo.dev/accounts/yogi.267/projects/weatherapp)
 
 ## Folder Structure
 - `src/api/` → Api call function declaration
