@@ -7,6 +7,7 @@ import {
   TextInput,
   StyleSheet,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useThemeColor } from "@/hooks/useThemeColor";
@@ -15,12 +16,12 @@ import useWeatherViewModel from "../viewmodels/WeatherViewModel";
 // WeatherScreen displays weather details for a given city with city search input
 const WeatherScreen: React.FC = () => {
   const colors = useThemeColor();
-
-  const { city, weather, refreshing, handleInputChange, onRefresh } =
+  const { city, weather, refreshing, handleInputChange, onRefresh, loading } =
     useWeatherViewModel();
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
+      {/* Search Input */}
       <View
         style={[
           styles.inputView,
@@ -39,13 +40,23 @@ const WeatherScreen: React.FC = () => {
           onChangeText={handleInputChange}
         />
       </View>
+
+      {/* Weather Details */}
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <WeatherCard weather={weather} />
+        {/* Loader */}
+        {loading && (
+          <View style={styles.loaderContainer}>
+            <ActivityIndicator size="large" color={colors.icon} />
+          </View>
+        )}
+
+        {/* Weather Card */}
+        {!loading && <WeatherCard weather={weather} />}
       </ScrollView>
     </View>
   );
@@ -67,6 +78,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     fontSize: 16,
     ...(Platform.OS == "android" ? { paddingTop: 0, paddingBottom: 0 } : null),
+  },
+  loaderContainer: {
+    marginTop: 20,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

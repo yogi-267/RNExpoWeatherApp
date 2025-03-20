@@ -11,12 +11,14 @@ const MAX_CACHE_SIZE = 100;
 const useWeatherViewModel = () => {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
   // Fetch Weather with Caching
   const fetchWeather = async (cityName: string) => {
     if (!cityName) return;
 
+    setLoading(true);
     try {
       const cachedDataString = await AsyncStorage.getItem(CACHE_KEY);
       const cachedData = cachedDataString ? JSON.parse(cachedDataString) : [];
@@ -35,13 +37,21 @@ const useWeatherViewModel = () => {
       const newWeatherData = await getWeather(cityName);
       if (!newWeatherData) throw new Error("No data received from API");
 
-      const newRecord = { ...transformWeatherData(newWeatherData), city: cityName };
+      const newRecord = {
+        ...transformWeatherData(newWeatherData),
+        city: cityName,
+      };
       const updatedCache = [newRecord, ...cachedData].slice(0, MAX_CACHE_SIZE);
       await AsyncStorage.setItem(CACHE_KEY, JSON.stringify(updatedCache));
 
       setWeather(newRecord);
     } catch (error) {
-      console.error("Error fetching weather:", error);
+      console.error("Error fetching weatherdsfds:", error);
+      setWeather(null);
+
+      return null;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,6 +75,7 @@ const useWeatherViewModel = () => {
   return {
     city,
     weather,
+    loading,
     refreshing,
     handleInputChange,
     onRefresh,
