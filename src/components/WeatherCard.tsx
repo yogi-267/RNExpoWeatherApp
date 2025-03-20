@@ -10,10 +10,12 @@ import type { WeatherData } from "../viewmodels/types";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Colors } from "@/constants/Colors";
 
+// WeatherCard component displays weather details
 const WeatherCard = ({ weather }: { weather: WeatherData }) => {
   const colors = useThemeColor();
   const styles = getStyles(colors);
 
+  // Show an error message if no weather data is available
   if (!weather) {
     return (
       <View style={styles.container}>
@@ -27,9 +29,7 @@ const WeatherCard = ({ weather }: { weather: WeatherData }) => {
       </View>
     );
   }
-
-  console.log(weather);
-
+  
   return (
     <View style={styles.container}>
       {/* City Name */}
@@ -42,7 +42,7 @@ const WeatherCard = ({ weather }: { weather: WeatherData }) => {
         <Text style={styles.city}>{weather?.city}</Text>
       </View>
 
-      {/* Weather Icon & Temperature */}
+      {/* Weather Temperature */}
       <MaterialCommunityIcons
         name={getWeatherIcon(weather?.icon) as keyof typeof MaterialCommunityIcons.glyphMap}
         size={96}

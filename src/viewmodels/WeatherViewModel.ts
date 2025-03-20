@@ -7,6 +7,7 @@ import { transformWeatherData } from "../shared/helpers";
 const CACHE_KEY = "weatherHistory"; // Key for AsyncStorage
 const MAX_CACHE_SIZE = 100;
 
+// ViewModel for Weather Screen
 const useWeatherViewModel = () => {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState<any>(null);
@@ -39,7 +40,6 @@ const useWeatherViewModel = () => {
       await AsyncStorage.setItem(CACHE_KEY, JSON.stringify(updatedCache));
 
       setWeather(newRecord);
-      console.log("Fetched new weather data ✅:", newRecord);
     } catch (error) {
       console.error("Error fetching weather:", error);
     }

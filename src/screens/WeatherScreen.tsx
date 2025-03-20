@@ -6,13 +6,14 @@ import {
   RefreshControl,
   TextInput,
   StyleSheet,
+  Platform,
 } from "react-native";
-import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import useWeatherViewModel from "../viewmodels/WeatherViewModel";
 
-const WeatherScreen = () => {
+// WeatherScreen displays weather details for a given city with city search input
+const WeatherScreen: React.FC = () => {
   const colors = useThemeColor();
 
   const { city, weather, refreshing, handleInputChange, onRefresh } =
@@ -20,7 +21,6 @@ const WeatherScreen = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <StatusBar />
       <View
         style={[
           styles.inputView,
@@ -32,7 +32,7 @@ const WeatherScreen = () => {
       >
         <Ionicons name="search" size={24} color={colors.icon} />
         <TextInput
-          style={styles.input}
+          style={[styles.input, { color: colors.text }]}
           placeholder="Search for a city..."
           placeholderTextColor={colors.placeholderText}
           value={city}
@@ -60,11 +60,13 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     paddingVertical: 10,
     marginBottom: 10,
+    alignItems: "center",
   },
   input: {
     flex: 1,
     paddingHorizontal: 15,
     fontSize: 16,
+    ...(Platform.OS == "android" ? { paddingTop: 0, paddingBottom: 0 } : null),
   },
 });
 
